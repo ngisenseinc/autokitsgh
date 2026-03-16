@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ChevronDown, Car, Sparkles, Loader2 } from 'lucide-react';
-import { GoogleGenAI } from '@google/genai';
+// Removed direct GoogleGenAI usage; use server proxy for Gemini queries
 
 const BRANDS = ['Toyota', 'Honda', 'Hyundai', 'Kia', 'Mercedes', 'BMW', 'Nissan', 'Mitsubishi', 'VW'];
 const MODELS: Record<string, string[]> = {
@@ -30,15 +30,17 @@ export function SmartPartFinder() {
     
     setIsSearching(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY });
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: `You are an expert auto parts matcher for "Auto Kits GH". A customer is looking for a part: "${aiQuery}". 
-        Analyze their request and suggest the exact part name, OEM number (if applicable), and compatibility. 
-        Keep the response concise, professional, and formatted as a short list of recommendations.`,
+      // Call server proxy
+      const res = await fetch('/api/gemini-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: aiQuery,
+          model: 'gemini-3-flash-preview',
+        }),
       });
-      
-      setAiResult(response.text || 'No matches found. Please try a different query.');
+      const data = await res.json();
+      setAiResult(data?.text || 'No matches found. Please try a different query.');
     } catch (error) {
       console.error('Error with AI search:', error);
       setAiResult('Failed to process your request. Please try again.');

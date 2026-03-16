@@ -45,9 +45,8 @@ export default defineConfig(({mode}) => {
         }
       })
     ],
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
+    // Do not inject Gemini API key into client bundle. Use server-side env vars instead.
+    // Removed to prevent exposing API keys in the frontend bundle.
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

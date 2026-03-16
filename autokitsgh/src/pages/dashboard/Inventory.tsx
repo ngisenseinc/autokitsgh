@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Search, Filter, MoreVertical, Edit2, Trash2, AlertCircle, CheckCircle2, X, Package, Loader2 } from 'lucide-react';
 import { formatGHS } from '@/src/lib/utils';
 import { supabase } from '@/src/lib/supabase';
-import { GoogleGenAI } from '@google/genai';
+// Removed GoogleGenAI client usage for Gemini to avoid exposing API keys.
 
 // Mock data for initial render
 const MOCK_INVENTORY = [
@@ -29,14 +29,17 @@ export function Inventory() {
     
     setIsGenerating(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY });
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: `Generate a premium, engaging product description for an auto spare part based on these details: ${aiPrompt}. 
-        The tone should be luxurious, professional, and appealing to car enthusiasts. Keep it under 150 words.`,
+      // Call server proxy instead of client SDK to avoid exposing API keys
+      const res = await fetch('/api/gemini-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: aiPrompt,
+          model: 'gemini-3-flash-preview',
+        }),
       });
-      
-      setGeneratedDescription(response.text || '');
+      const data = await res.json();
+      setGeneratedDescription(data?.text || '');
     } catch (error) {
       console.error('Error generating description:', error);
       setGeneratedDescription('Failed to generate description. Please try again.');

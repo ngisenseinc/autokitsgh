@@ -16,11 +16,11 @@
   "routes": [
     {
       "src": "/api/gemini-chat(.*)",
-      "dest": "/api/gemini-chat.js"
+      "dest": "/autokitsgh/api/gemini-chat.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/$1"
+      "dest": "/autokitsgh/dist/$1"
     }
   ]
 }

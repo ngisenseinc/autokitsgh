@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-primary: #0ea5e9;
+  --color-primary-hover: #0284c7;
+  --color-dark: #ffffff;
+  --color-surface: #f8fafc;
+  --color-surface-light: #f1f5f9;
+  --color-accent: #fbbf24;
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+  
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+body {
+  @apply bg-dark text-text-main font-sans antialiased selection:bg-primary selection:text-white;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.05), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(251, 191, 36, 0.03), transparent 25%);
+  background-attachment: fixed;
+}
+
+.glass-panel {
+  @apply bg-surface/80 backdrop-blur-xl border border-black/5 shadow-2xl;
+}
+
+.glass-card {
+  @apply bg-surface-light/60 backdrop-blur-md border border-black/10 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] hover:-translate-y-1;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-text-main to-text-muted;
+}
+
+.text-gradient-primary {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-dark;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-surface-light rounded-full hover:bg-primary/50 transition-colors;
+}
+
+/* Hide scrollbar for horizontal scroll areas but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

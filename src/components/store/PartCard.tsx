@@ -69,7 +69,7 @@ export function PartCard({ id, name, priceGHS, priceUSD, imageUrl, compatibility
       </div>
 
       {/* Quick Actions overlay on hover */}
-      <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-20">
+      <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-40">
         <WhatsAppButton partName={name} price={priceGHS} className="w-full py-3" />
       </div>
     </motion.div>

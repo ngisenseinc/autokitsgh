@@ -8,7 +8,9 @@ interface WhatsAppButtonProps {
 }
 
 export function WhatsAppButton({ partName, price, className = '', variant = 'solid' }: WhatsAppButtonProps) {
-  const phoneNumber = '233540000000'; // Example Ghana number
+  // Move phone number to environment variable for easier configuration
+  // Expect VITE_WHATSAPP_NUMBER to be provided in the client build environment
+  const phoneNumber = (import.meta.env.VITE_WHATSAPP_NUMBER as string) || '2335400000'; // Fallback example Ghana number
   const message = `Hi Auto Kits GH! I'm interested in:\n\n*${partName}* | GHS ${price}\n\nMy car: [Brand] [Model] [Year]\n\nPlease confirm availability. 🙏`;
   const encodedMessage = encodeURIComponent(message);
   const waLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
